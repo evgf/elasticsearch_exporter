@@ -358,6 +358,14 @@ var (
 			help:   "Number of data nodes",
 			labels: []string{"cluster"},
 		},
+		"cluster_status": &VecInfo{
+			help:   "Index status (0=green, 1=yellow, 2=red)",
+			labels: []string{"cluster"},
+		},
+		"cluster_active_shards_percent": &VecInfo{
+			help:   "Percent active shards",
+			labels: []string{"cluster"},
+		},
 		"index_status": &VecInfo{
 			help:   "Index status (0=green, 1=yellow, 2=red)",
 			labels: []string{"cluster", "index"},
