@@ -666,10 +666,13 @@ func (e *Exporter) CollectClusterHealth() {
 		return
 	}
 
+	var statusMap = map[string]float64{"green": 0, "yellow": 1, "red": 2}
+
 	e.gauges["cluster_nodes_total"].WithLabelValues(stats.ClusterName).Set(float64(stats.NumberOfNodes))
 	e.gauges["cluster_nodes_data"].WithLabelValues(stats.ClusterName).Set(float64(stats.NumberOfDataNodes))
+	e.gauges["cluster_status"].WithLabelValues(stats.ClusterName).Set(statusMap[stats.Status])
+	e.gauges["cluster_active_shards_percent"].WithLabelValues(stats.ClusterName).Set(stats.ActiveShardsPercent)
 
-	var statusMap = map[string]float64{"green": 0, "yellow": 1, "red": 2}
 	for indexName, indexStats := range stats.Indices {
 		e.gauges["index_status"].WithLabelValues(stats.ClusterName, indexName).Set(statusMap[indexStats.Status])
 		e.gauges["index_shards_active_primary"].WithLabelValues(stats.ClusterName, indexName).Set(float64(indexStats.ActivePrimaryShards))
